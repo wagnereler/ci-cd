@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexadesk-api
+  labels:
+    app: nexadesk-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nexadesk-api
+  template:
+    metadata:
+      labels:
+        app: nexadesk-api
+    spec:
+      containers:
+        - name: api
+          image: REPLACE_WITH_IMAGE
+          ports:
+            - containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexadesk-api
+spec:
+  selector:
+    app: nexadesk-api
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: ClusterIP
