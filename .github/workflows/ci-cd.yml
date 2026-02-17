@@ -74,17 +74,29 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Validate registry credentials
+        run: |
+          if [ -z "${{ secrets.REGISTRY_USER }}" ]; then
+            echo "::error::Secret REGISTRY_USER is empty or unavailable in this run."
+            exit 1
+          fi
+          if [ -z "${{ secrets.REGISTRY_PASS }}" ]; then
+            echo "::error::Secret REGISTRY_PASS is empty or unavailable in this run."
+            exit 1
+          fi
+
       - name: Log in to registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.REGISTRY_URL }}
+          registry: ${{ secrets.REGISTRY_URL || 'docker.io' }}
           username: ${{ secrets.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASS }}
 
       - name: Build and push image
         id: meta
         run: |
-          IMAGE=${{ secrets.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          REGISTRY=${{ secrets.REGISTRY_URL || 'docker.io' }}
+          IMAGE=$REGISTRY/${{ env.IMAGE_NAME }}:${{ github.sha }}
           echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
           docker build -t "$IMAGE" ./api
           docker push "$IMAGE"
