@@ -62,6 +62,7 @@ jobs:
   build-and-push:
     needs: build-and-test
     runs-on: ubuntu-latest
+    environment: DOCKER
     if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/main') }}
     outputs:
       image: ${{ steps.meta.outputs.image }}
