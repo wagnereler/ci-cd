@@ -1,3 +1,3 @@
 # arquivo controlado por CI para promover imagens no GitOps
 # conteudo = registry_url/image_name:tag
-REPLACE_WITH_IMAGE
+
