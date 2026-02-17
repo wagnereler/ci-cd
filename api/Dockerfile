@@ -5,6 +5,7 @@ WORKDIR /app
 # copiar manifests de dependências para aproveitar cache
 COPY package.json package-lock.json ./
 RUN npm ci
+RUN mkdir -p node_modules
 
 # copiar restante do código
 COPY . .
