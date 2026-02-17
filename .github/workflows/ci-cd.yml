@@ -63,7 +63,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     environment: DOCKER
-    if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/main') && hashFiles('api/package.json') != '' && hashFiles('api/package-lock.json') != '' }}
+    if: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/main') }}
     outputs:
       image: ${{ steps.meta.outputs.image }}
       target_env: ${{ steps.target.outputs.target_env }}
