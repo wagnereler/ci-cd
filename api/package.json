@@ -1,0 +1,15 @@
+{
+  "name": "nexadesk-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal API service for CI/CD pipeline validation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp src/index.js dist/index.js",
+    "start": "node dist/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
