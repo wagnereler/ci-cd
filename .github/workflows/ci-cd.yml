@@ -96,7 +96,7 @@ jobs:
         id: meta
         run: |
           REGISTRY=${{ secrets.REGISTRY_URL || 'docker.io' }}
-          IMAGE=$REGISTRY/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          IMAGE=$REGISTRY/${{ secrets.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
           docker build -t "$IMAGE" ./api
           docker push "$IMAGE"
